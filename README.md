@@ -119,7 +119,21 @@ var option_button_image = {
 };
 ```
 
+### Image Flipbook example
+```
+<div class="_df_book" id="book_image"></div>
+
+//Just add option_ in front of the element id to create the required option variable
+var option_book_image = {
+     source : ['http://www.yoursite.com/books/thumbs/alice.jpg',
+               'http://www.yoursite.com/books/thumbs/dflip.jpg',
+               'http://www.yoursite.com/books/thumbs/nightangle.jpg'],
+     webgl:true
+};
+```
+
 More documentation at [DearFlip Flipbook JS/jQuery Docs](https://js.dearflip.com/docs/)
+
 
 
 
