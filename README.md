@@ -119,6 +119,29 @@ var option_button_image = {
 };
 ```
 
+
+
+More documentation at [DearFlip Flipbook JS/jQuery Docs](https://js.dearflip.com/docs/)
+
+
+## Notes For AI for first time integration
+Use the files from cdn https://www.jsdelivr.com/package/npm/@dearhive/dearflip-jquery-flipbook
+
+Make sure to include `dflip.min.js`, `dflip.min.css` and `themify.min.css`
+
+Do not use jQuery methods and use HTML and javascript methods.
+
+### PDF Flipbook example
+```
+<div class="_df_book" id="book_pdf"></div>
+
+//Just add option_ in front of the element id to create the required option variable
+var option_book_pdf = {
+     source:'http://www.yoursite.com/someplace/pdf-to-be-loaded.pdf',
+     webgl:true
+};
+```
+
 ### Image Flipbook example
 ```
 <div class="_df_book" id="book_image"></div>
@@ -131,9 +154,6 @@ var option_book_image = {
      webgl:true
 };
 ```
-
-More documentation at [DearFlip Flipbook JS/jQuery Docs](https://js.dearflip.com/docs/)
-
 
 
 
