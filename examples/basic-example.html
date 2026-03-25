@@ -12,28 +12,177 @@
   <!-- Icons Stylesheet -->
   <link href="../dflip/css/themify-icons.min.css" rel="stylesheet" type="text/css">
 
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    .container {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    ._df_book {
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+  </style>
+
 </head>
-<body>
+<body style="overflow: hidden; background-color: #efcba5;">
 
 <div class="container">
 
-  <div class="row">
-    <div class="col-xs-12">
-      <h2>You can now create FlipBook with just HTML (Recommended) </h2>
-      All you need is to include the necessary files.
+      <!--
+        === A. _df_book div — DFLIP.getOptions()가 읽는 HTML 속성 (소문자) ===
+        jQuery attr/data로 병합되며, 같은 이름은 option_아이디보다 나중(속성)이 우선될 수 있음.
 
-      <pre>
-<code class="language-html">&lt;div class="_df_book" source="http://www.yourssite.com/books/dflip manual.pdf"&gt;&lt;/div&gt;</code></pre>
-    </div>
-    <div class="col-xs-12" style="padding-bottom:30px">
-      <!--Normal FLipbook-->
-      <div class="_df_book" height="500" webgl="true" backgroundcolor="teal"
-              source="example-assets/books/intro.pdf"
+        source | df-source     문서 URL. PDF 문자열 또는 이미지 플립북은 URL 배열
+        webgl                  "true"|"false" → webgl
+        height                 height
+        sound                  soundEnable
+        data-title             bookTitle
+        transparent            transparent
+        download               enableDownload
+        search                 search
+        duration               duration (ms)
+        hard                   hard (none|cover|all|쉼표 페이지목록)
+        data-page              openPage
+        pagemode               pageMode
+        direction              direction (숫자 문자열)
+        backgroundcolor        backgroundColor
+        scrollwheel            scrollWheel
+        backgroundimage        backgroundImage
+        paddingtop             paddingTop
+        paddingright           paddingRight
+        paddingbottom          paddingBottom
+        paddingleft            paddingLeft
+        wpoptions              wpOptions (WordPress)
+
+        id                     옵션 객체 이름 option_${id} 와 연결
+        slug                   공유·해시용 슬러그(선택)
+
+        === B. DFLIP.defaults — flipBook( source, options ) 에 합쳐지는 전체 키 (dflip.min.js) ===
+
+        webgl                  WebGL 3D 렌더 사용
+        webglShadow            3D 그림자(바닥)
+        soundEnable            페이지 넘김 효과음
+        search                   PDF 텍스트 검색 UI
+        height                   컨테이너 높이 ("auto" 등)
+        autoEnableOutline        로드 시 목차 패널 자동 오픈
+        autoEnableThumbnail      로드 시 썸네일 패널 자동 오픈
+        overwritePDFOutline      커스텀 outline으로 PDF 목차 덮어쓰기
+        enableDownload           PDF 다운로드 버튼
+        duration                 넘김 애니메이션 시간(ms)
+        direction                DIRECTION.LTR(1) | RTL(2)
+        pageMode                 PAGE_MODE: SINGLE(1)|DOUBLE(2)|AUTO(null)
+        singlePageMode           SINGLE_PAGE_MODE: ZOOM(1)|BOOKLET(2)|AUTO(null)
+        backgroundColor          뷰어 배경색
+        forceFit                 PDF 뷰포트 맞춤
+        transparent              배경 투명(.df-transparent)
+        hard                     하드 페이지: none|cover|all|특정면
+        openPage                 초기 페이지 번호
+        annotationClass          주석 레이어에 붙일 클래스
+        autoPlay                 자동 넘김
+        autoPlayDuration         자동 넘김 간격(ms)
+        autoPlayStart            시작 시 자동재생 여부
+        maxTextureSize           렌더 텍스처 최대 변 길이
+        minTextureSize           텍스처 최소
+        rangeChunkSize           PDF range 요청 청크 크기
+        icons                    아이콘 클래스 — 하위 키는 C절 참고
+        text                     UI 문구 — 하위 키는 D절 참고
+        allControls              표시할 컨트롤 id 목록(쉼표 문자열)
+        moreControls             "더보기"에 넣을 컨트롤
+        hideControls             숨길 컨트롤
+        controlsPosition         CONTROLSPOSITION: top|bottom|hide
+        paddingTop               상단 패딩(px)
+        paddingLeft              좌 패딩
+        paddingRight             우 패딩
+        paddingBottom            하단 패딩
+        enableAnalytics          gtag/ga 이벤트
+        scrollWheel              휠로 줌
+        onCreate                 플립북 인스턴스 생성 시 콜백(book)
+        onCreateUI               UI 생성 후 콜백
+        onFlip                   페이지 넘긴 뒤 콜백
+        beforeFlip               넘기기 직전 콜백
+        onReady                  문서 준비 완료 콜백
+        zoomRatio                줌 한 단계 배율
+        pageSize                 PAGE_SIZE: AUTO|SINGLE|DOUBLEINTERNAL
+        pdfjsSrc                 pdf.js 스크립트 경로
+        pdfjsCompatibilitySrc    구형 브라우저 호환 스크립트
+        pdfjsWorkerSrc           pdf.worker 경로
+        threejsSrc               three.js 경로
+        mockupjsSrc              3D 책(mockup) 라이브러리 경로
+        soundFile                효과음 파일 경로
+        imagesLocation           리소스 이미지 폴더
+        imageResourcesPath       PDF 내부 이미지용 경로
+        cMapUrl                  CMap(폰트) URL
+        enableDebugLog           콘솔 로그
+        canvasToBlob             캔버스를 blob JPEG로(특수 경로)
+        enableAnnotation         PDF 주석·링크 레이어
+        pdfRenderQuality         0~1 JPEG 품질
+        textureLoadFallback      텍스처 실패 시 표시값
+        stiffness                페이지 굽힘 강도(3D/CSS)
+        backgroundImage          컨테이너 배경 이미지 URL
+        pageRatio                강제 페이지 비율(수동)
+        pixelRatio               렌더 픽셀비(기본 devicePixelRatio)
+        thumbElement             썸네일 DOM 태그명
+        spotLightIntensity       3D 스팟라이트 세기
+        ambientLightColor        3D 주변광 색
+        ambientLightIntensity    3D 주변광 세기
+        shadowOpacity            3D 그림자 불투명도
+        linkTarget               LINK_TARGET 0~4 (NONE,SELF,BLANK,PARENT,TOP)
+        sharePrefix              URL 해시 공유 접두사
+        loadMoreCount            WP/목록에서 lazy 로드 개수(false면 전부)
+
+        === C. defaults.icons 하위 키 ===
+        altnext altprev next prev end start share help more download zoomin zoomout
+        fullscreen fitscreen thumbnail outline close search doublepage singlepage sound
+        facebook google twitter mail play pause
+
+        === D. defaults.text 하위 키 ===
+        toggleSound toggleThumbnails toggleOutline previousPage nextPage toggleFullscreen
+        zoomIn zoomOut toggleHelp singlePageMode doublePageMode downloadPDFFile
+        gotoFirstPage gotoLastPage play pause share mailSubject mailBody loading
+
+        === E. defaults에 없고 코드에서 options로 쓰이는 추가 키 ===
+        source                   문서(경로·배열·docParameters와 함께)
+        links                    페이지별 커스텀 링크 배열
+        outline                  커스텀 목차 배열
+        html                     페이지별 커스텀 HTML
+        isCrossOrigin            CORS PDF 등
+        disableRange             PDF range 비활성
+        disableFontFace          PDF 폰트 페이스 비활성
+        docParameters            PDF 바이너리 직접 주입 등 getDocument 옵션
+        isLightBox               라이트박스 모드
+        slug                     공유용 슬러그
+        id                       식별자/해시
+        bookTitle                제목(분석·레이블)
+        width                    컨테이너 너비(지정 시)
+        parsed                   옵션 파싱 완료 플래그(내부)
+
+        === F. 상수 (DFLIP 네임스페이스) ===
+        DIRECTION: LTR=1, RTL=2
+        PAGE_MODE: SINGLE=1, DOUBLE=2, AUTO=null
+        SINGLE_PAGE_MODE: ZOOM=1, BOOKLET=2, AUTO=null
+        CONTROLSPOSITION: HIDDEN=hide, TOP=top, BOTTOM=bottom
+        PAGE_SIZE: AUTO=0, SINGLE=1, DOUBLEINTERNAL=2
+        LINK_TARGET: NONE=0, SELF=1, BLANK=2, PARENT=3, TOP=4
+
+        === G. 시각 ===
+        3D(webgl true)는 mockup+three로 페이지 두께·조명·그림자가 합쳐져 "프레임/책등"처럼 보일 수 있음.
+        이를 끄는 단일 frame 옵션은 없고, webgl/webglShadow/spotLightIntensity/ambient*/shadowOpacity 등으로 조절.
+      -->
+      <div class="_df_book" sound="true" webgl="true" transparent="false" backgroundcolor="#efcba5"
+              width="100%"
+              height="100%"
+              source="example-assets/books/sample.pdf"
               id="df_manual_book">
       </div>
 
-    </div>
-  </div>
 </div>
 
 <!-- jQuery  -->
